@@ -43,11 +43,11 @@ class FilterOptionInputView : StackView(Orientation.HORIZONTAL) {
             label.text = value
         }
 
-    var inputValues by Delegates.observable<List<Pair<String, String>>>(emptyList()) { property, oldValue, newValue ->
+    var inputValues by Delegates.observable<List<Pair<String, String>>>(emptyList()) { _, _, newValue ->
         content.update(newValue)
     }
 
-    var selectedValue by Delegates.observable<Pair<String, String>?>(null) { property, oldValue, newValue ->
+    var selectedValue by Delegates.observable<Pair<String, String>?>(null) { _, _, newValue ->
         inputValue = newValue?.second.orEmpty()
     }
 
@@ -73,7 +73,7 @@ class FilterOptionInputView : StackView(Orientation.HORIZONTAL) {
 
     class StringListRecyclerView : RecyclerView() {
 
-        var adapter: Adapter
+        private var adapter: Adapter
             get() = nativeView.adapter as Adapter
             set(value) {
                 nativeView.adapter = value

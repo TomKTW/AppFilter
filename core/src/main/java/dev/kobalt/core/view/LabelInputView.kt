@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package dev.kobalt.core.view
 
 import android.annotation.SuppressLint
@@ -17,7 +19,6 @@ import dev.kobalt.core.extension.Font
 import dev.kobalt.core.extension.Gravity
 import dev.kobalt.core.extension.sp
 import java.lang.reflect.Field
-
 
 open class LabelInputView : NativeView() {
 

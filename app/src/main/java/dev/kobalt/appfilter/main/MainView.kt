@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package dev.kobalt.appfilter.main
 
 import dev.kobalt.appfilter.entity.RemoteEntity
@@ -5,26 +7,13 @@ import dev.kobalt.appfilter.extension.*
 import dev.kobalt.appfilter.view.FilterLabelInputView
 import dev.kobalt.appfilter.view.FilterOptionInputView
 import dev.kobalt.appfilter.view.ToolbarView
+import dev.kobalt.core.extension.digitalGroup
 import dev.kobalt.core.extension.dp
 import dev.kobalt.core.resources.Colors
 import dev.kobalt.core.resources.Images
+import dev.kobalt.core.utility.WeakReferenceCache
 import dev.kobalt.core.view.NavigationView
 import dev.kobalt.core.view.StackView
-import java.lang.ref.WeakReference
-import java.util.*
-
-class WeakReferenceCache<T>(
-    private val initialize: () -> T
-) {
-
-    private var weakReference: WeakReference<T>? = null
-
-    val value: T
-        get() = weakReference?.get() ?: initialize.invoke().let {
-            weakReference = WeakReference(it); it
-        }
-
-}
 
 class MainView : StackView(orientation = Orientation.VERTICAL) {
 
@@ -38,10 +27,6 @@ class MainView : StackView(orientation = Orientation.VERTICAL) {
         launchButton.onTap = {
             detailsEntry?.link?.let { openUrl(it) }
         }
-    }
-
-    fun Int.digitalGroup(): String {
-        return String.format(Locale.ENGLISH, "%,d", this)
     }
 
     private val contentNavigation = NavigationView().apply {
@@ -146,7 +131,7 @@ class MainView : StackView(orientation = Orientation.VERTICAL) {
 
     private var entity: RemoteEntity? = null
 
-    fun apply(entity: RemoteEntity) {
+    private fun apply(entity: RemoteEntity) {
         this.entity = entity
         contentNavigation.currentLayout = getListLayout()
     }

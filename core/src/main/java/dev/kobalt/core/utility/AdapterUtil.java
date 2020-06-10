@@ -5,6 +5,7 @@ import android.widget.AdapterView;
 
 public class AdapterUtil {
 
+    @SuppressWarnings("rawtypes")
     public static int getPositionForView(View view, AdapterView adapter) {
         {
             View listItem = view;

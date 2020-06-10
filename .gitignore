@@ -35,7 +35,7 @@ gen/
 out/
 
 # Gradle files
-.gradle
+# .gradle
 .gradle/
 build/
 
@@ -67,13 +67,13 @@ captures/
 gen-external-apklibs
 
 # External native build folder generated in Android Studio 2.2 and later
-.externalNativeBuild
+# .externalNativeBuild
 
 # NDK
 obj/
 
 # IntelliJ IDEA
-*.iml
+# *.iml
 *.iws
 /out/
 
@@ -101,7 +101,7 @@ obj/
 .idea/assetWizardSettings.xml
 
 # OS-specific files
-.DS_Store
+# .DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100

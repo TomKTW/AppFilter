@@ -46,14 +46,9 @@ class DetailsView : LayerView() {
             )
         }
 
-    val contentScroll = ScrollView().apply {
+    private val contentScroll = ScrollView().apply {
         add(contentStack, width = matchParent, height = wrapContent)
     }
-
-    fun resetScroll() {
-        contentScroll.nativeView.scrollTo(0, 0)
-    }
-
 
     init {
         background = colors.gray.toImage()

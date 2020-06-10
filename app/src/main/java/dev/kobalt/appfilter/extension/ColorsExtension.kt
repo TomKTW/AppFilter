@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package dev.kobalt.appfilter.extension
 
 import dev.kobalt.core.resources.Colors

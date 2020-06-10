@@ -18,7 +18,7 @@ class EntryRecyclerView : RecyclerView() {
             adapter.onItemTap = value
         }
 
-    var adapter: Adapter
+    private var adapter: Adapter
         get() = nativeView.adapter as Adapter
         set(value) {
             nativeView.adapter = value

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package dev.kobalt.core.components.network
 
 import io.ktor.client.HttpClient
@@ -29,6 +31,7 @@ fun httpClient(): HttpClient {
 
 // https://letsencrypt.org/certificates/
 // https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt
+@Suppress("SpellCheckingInspection")
 private const val certificateData = "-----BEGIN CERTIFICATE-----\n" +
         "MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/\n" +
         "MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT\n" +

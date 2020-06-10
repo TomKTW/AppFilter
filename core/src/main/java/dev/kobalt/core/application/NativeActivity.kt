@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package dev.kobalt.core.application
 
 import android.app.Activity

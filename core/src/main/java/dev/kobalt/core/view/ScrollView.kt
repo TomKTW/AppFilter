@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package dev.kobalt.core.view
 
 import android.annotation.SuppressLint

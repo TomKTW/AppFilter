@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package dev.kobalt.core.view
 
 import android.annotation.SuppressLint

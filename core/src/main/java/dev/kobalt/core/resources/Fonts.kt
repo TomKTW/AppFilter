@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package dev.kobalt.core.resources
 
 import dev.kobalt.core.application.ApplicationBinder
