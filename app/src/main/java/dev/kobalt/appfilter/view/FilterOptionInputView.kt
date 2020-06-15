@@ -9,7 +9,7 @@ import dev.kobalt.core.view.RecyclerView
 import dev.kobalt.core.view.StackView
 import kotlin.properties.Delegates
 
-class FilterOptionInputView : StackView(Orientation.HORIZONTAL) {
+class FilterOptionInputView : StackView(Orientation.Vertical) {
 
     var id: String? = null
 
@@ -60,12 +60,11 @@ class FilterOptionInputView : StackView(Orientation.HORIZONTAL) {
     init {
         nativeView.onDetachedFromWindow = { popup.dismiss() }
         gravity = centerGravity
-        add(label, width = wrapContent, height = wrapContent, margin = 8.dp)
+        add(label, width = matchParent, height = wrapContent, margin = 4.dp)
         add(
             input,
-            width = matchConstraint,
+            width = matchParent,
             height = wrapContent,
-            weight = 1f,
             margin = 4.dp,
             padding = 4.dp
         )
@@ -154,7 +153,7 @@ class FilterOptionInputView : StackView(Orientation.HORIZONTAL) {
                     images.rectangle(colors.grayDark, 0.dp),
                     images.tapState(colors.black, 0.dp)
                 )
-                add(StackView(Orientation.VERTICAL).apply {
+                add(StackView(Orientation.Vertical).apply {
                     add(titleLabel, width = matchParent, height = wrapContent, margin = 8.dp)
                 }, width = matchParent, height = wrapContent)
             }

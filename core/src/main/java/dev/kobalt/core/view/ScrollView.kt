@@ -3,14 +3,18 @@
 package dev.kobalt.core.view
 
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
+import android.os.Build
 import android.widget.FrameLayout
-import android.widget.ScrollView
 import dev.kobalt.core.application.NativeApplication
 import dev.kobalt.core.application.NativeView
 
-open class ScrollView : NativeView() {
+open class ScrollView(orientation: Orientation) : NativeView() {
 
-    override val nativeView = NativeScrollView()
+    override val nativeView = when (orientation) {
+        Orientation.Horizontal -> NativeHorizontalScrollView()
+        Orientation.Vertical -> NativeVerticalScrollView()
+    }
 
     val children = mutableListOf<NativeView>()
 
@@ -35,5 +39,14 @@ open class ScrollView : NativeView() {
     }
 
     @SuppressLint("ViewConstructor")
-    class NativeScrollView : ScrollView(NativeApplication.instance.native)
+    class NativeVerticalScrollView : android.widget.ScrollView(NativeApplication.instance.native)
+
+    @TargetApi(Build.VERSION_CODES.CUPCAKE)
+    @SuppressLint("ViewConstructor")
+    class NativeHorizontalScrollView :
+        android.widget.HorizontalScrollView(NativeApplication.instance.native)
+
+    enum class Orientation {
+        Horizontal, Vertical
+    }
 }

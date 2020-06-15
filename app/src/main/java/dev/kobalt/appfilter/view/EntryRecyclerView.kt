@@ -1,14 +1,14 @@
 package dev.kobalt.appfilter.view
 
 import dev.kobalt.appfilter.entity.RemoteEntity
-import dev.kobalt.appfilter.extension.refreshIcon
+import dev.kobalt.appfilter.extension.*
 import dev.kobalt.core.application.NativeView
+import dev.kobalt.core.extension.digitalGroup
 import dev.kobalt.core.extension.dp
 import dev.kobalt.core.extension.withAlpha
 import dev.kobalt.core.resources.Colors
 import dev.kobalt.core.resources.Images
 import dev.kobalt.core.view.*
-import java.util.*
 
 class EntryRecyclerView : RecyclerView() {
 
@@ -65,30 +65,23 @@ class EntryRecyclerView : RecyclerView() {
             when (holder) {
                 is ItemHolder -> (holder.view as? ItemView)?.let { view ->
                     getItem(holder).let {
+                        val rating = strings.detailsRating(it?.ratingAverage)
+                        val reviewCount = it?.ratingTotal?.toIntOrNull() ?: 0
+                        val reviews = strings.detailsReviews(reviewCount.digitalGroup())
+                        val containsAds = it?.ads.equals("true", ignoreCase = true)
+                        val ads =
+                            if (containsAds) strings.detailsWithAds else strings.detailsWithoutAds
+                        val containsIap = it?.iap.equals("true", ignoreCase = true)
+                        val iap =
+                            if (containsIap) strings.detailsWithIap else strings.detailsWithoutIap
+                        val placeholder = Images.refreshIcon(Colors.white)
                         view.titleLabel.text = it?.name.orEmpty()
                         view.developerLabel.text = it?.developer.orEmpty()
                         view.categoryLabel.text = it?.category.orEmpty()
                         view.contentRatingLabel.text = it?.contentRating.orEmpty()
-                        val ratingValue = String.format(
-                            Locale.ENGLISH,
-                            "%,d",
-                            it?.ratingTotal?.toIntOrNull() ?: 0
-                        )
-                        view.ratingLabel.text =
-                            "Rating: ${it?.ratingAverage}, $ratingValue reviews"
-                        view.statsLabel.text = "${(if (it?.ads.equals(
-                                "yes",
-                                ignoreCase = true
-                            )
-                        ) "Contains ads" else "No ads")}, ${(if (it?.iap.equals(
-                                "yes",
-                                ignoreCase = true
-                            )
-                        ) "Contains IAP" else "No IAP")}"
-                        view.thumbnailImage.load(
-                            it?.image,
-                            placeholder = Images.refreshIcon(Colors.white)
-                        )
+                        view.ratingLabel.text = "$rating, $reviews"
+                        view.statsLabel.text = "$ads, $iap"
+                        view.thumbnailImage.load(it?.image, placeholder)
                     }
                 }
             }
@@ -115,7 +108,7 @@ class EntryRecyclerView : RecyclerView() {
         init {
             background = images.tapState(colors.black.withAlpha(0.5f), 0)
             add(
-                StackView(StackView.Orientation.HORIZONTAL)
+                StackView(StackView.Orientation.Horizontal)
                     .apply {
                         add(
                             thumbnailImage,
@@ -125,7 +118,7 @@ class EntryRecyclerView : RecyclerView() {
                             gravity = topGravity
                         )
                         add(
-                            StackView(StackView.Orientation.VERTICAL)
+                            StackView(StackView.Orientation.Vertical)
                                 .apply {
                                     add(titleLabel, width = matchParent, height = wrapContent)
                                     add(developerLabel, width = matchParent, height = wrapContent)

@@ -7,7 +7,6 @@ import android.graphics.Typeface
 import com.caverock.androidsvg.SVG
 import dev.kobalt.core.components.image.RemoteImageLoader
 import dev.kobalt.core.components.job.JobManager
-//import dev.kobalt.core.components.network.NetworkClient
 import dev.kobalt.core.extension.Color
 import dev.kobalt.core.extension.Font
 import dev.kobalt.core.extension.Image
@@ -17,12 +16,12 @@ import kotlin.math.ceil
 class Application(val native: NativeApplication) {
 
     val jobManager = JobManager(this)
-
-    //val networkClient = NetworkClient()
     val remoteImageLoader = RemoteImageLoader(this)
 
     fun getSvgImageFromResources(id: Int, color: Color): Image? {
         return SVG.getFromResource(native, id).takeIf { it.documentWidth != -1f }?.let { svg ->
+            svg.documentWidth = svg.documentWidth * 2
+            svg.documentHeight = svg.documentHeight * 2
             Bitmap.createBitmap(
                 ceil(svg.documentWidth).toInt(),
                 ceil(svg.documentHeight).toInt(),

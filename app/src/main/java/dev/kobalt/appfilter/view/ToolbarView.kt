@@ -9,7 +9,7 @@ import dev.kobalt.core.view.ImageView
 import dev.kobalt.core.view.LabelView
 import dev.kobalt.core.view.StackView
 
-class ToolbarView : StackView(orientation = Orientation.HORIZONTAL) {
+class ToolbarView : StackView(orientation = Orientation.Horizontal) {
 
     val titleLabel = LabelView().apply {
         text = strings.applicationName
@@ -34,6 +34,11 @@ class ToolbarView : StackView(orientation = Orientation.HORIZONTAL) {
         image = images.launchIcon(colors.white)
     }
 
+    val doneButton = ImageView().apply {
+        background = images.tapState(colors.black.withAlpha(0.5f), 4.dp)
+        image = images.doneIcon(colors.white)
+    }
+
     init {
         background = colors.green.toImage()
         add(backButton, width = 56.dp, height = matchParent, padding = 16.dp)
@@ -46,6 +51,7 @@ class ToolbarView : StackView(orientation = Orientation.HORIZONTAL) {
         )
         add(launchButton, width = 56.dp, height = matchParent, padding = 16.dp)
         add(filterButton, width = 56.dp, height = matchParent, padding = 16.dp)
+        add(doneButton, width = 56.dp, height = matchParent, padding = 16.dp)
     }
 
 }

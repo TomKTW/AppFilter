@@ -30,7 +30,7 @@ abstract class NativeView {
 
     protected val strings: Strings get() = Strings
 
-    private val activity: Activity?
+    private val nativeActivity: Activity?
         get() = nativeView.rootView.context as? Activity
 
     @Suppress("DEPRECATION")
@@ -48,7 +48,7 @@ abstract class NativeView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
             safeLet(
                 (application.native.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager),
-                activity?.currentFocus?.windowToken
+                nativeActivity?.currentFocus?.windowToken
             ) { inputMethodManager, windowToken ->
                 inputMethodManager.hideSoftInputFromWindow(
                     windowToken,
@@ -59,17 +59,19 @@ abstract class NativeView {
     }
 
     fun openUrl(url: String) {
-        application.native.startActivity(
-            Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(url)
-            ).also {
-                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            })
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).also {
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        application.native.startActivity(intent)
+
     }
 
     open fun onBackPressed() {
-        activity?.finish()
+
+    }
+
+    protected fun finish() {
+        nativeActivity?.finish()
     }
 
     private var _onTap: (() -> Unit)? = null
@@ -90,17 +92,17 @@ abstract class NativeView {
         set(value) {
             if (Build.VERSION.SDK_INT < 16) {
                 if (!value) {
-                    activity?.window?.setFlags(
+                    nativeActivity?.window?.setFlags(
                         android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN,
                         android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
                     )
                 } else {
-                    activity?.window?.clearFlags(
+                    nativeActivity?.window?.clearFlags(
                         android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
                     )
                 }
             } else {
-                val decorView: View = activity?.window!!.decorView
+                val decorView: View = nativeActivity?.window!!.decorView
                 val uiOptions =
                     if (!value) View.SYSTEM_UI_FLAG_FULLSCREEN else View.SYSTEM_UI_FLAG_VISIBLE
                 decorView.systemUiVisibility = uiOptions

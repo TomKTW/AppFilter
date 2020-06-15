@@ -7,23 +7,22 @@ import dev.kobalt.core.application.NativeView
 import dev.kobalt.core.extension.Gravity
 import java.lang.reflect.Field
 
-
 open class StackView(orientation: Orientation) : NativeView() {
 
     override val nativeView = NativeStackView()
 
     val children = mutableListOf<NativeView>()
 
-    var orientation: Orientation
+    private var orientation: Orientation
         get() = when (nativeView.orientation) {
-            LinearLayout.HORIZONTAL -> Orientation.HORIZONTAL
-            LinearLayout.VERTICAL -> Orientation.VERTICAL
+            LinearLayout.HORIZONTAL -> Orientation.Horizontal
+            LinearLayout.VERTICAL -> Orientation.Vertical
             else -> throw Exception("Invalid orientation state.")
         }
         set(value) {
             nativeView.orientation = when (value) {
-                Orientation.HORIZONTAL -> LinearLayout.HORIZONTAL
-                Orientation.VERTICAL -> LinearLayout.VERTICAL
+                Orientation.Horizontal -> LinearLayout.HORIZONTAL
+                Orientation.Vertical -> LinearLayout.VERTICAL
             }
         }
 
@@ -69,7 +68,7 @@ open class StackView(orientation: Orientation) : NativeView() {
     }
 
     enum class Orientation {
-        HORIZONTAL, VERTICAL
+        Horizontal, Vertical
     }
 
     @SuppressLint("ViewConstructor")

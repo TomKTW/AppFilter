@@ -10,7 +10,10 @@ import dev.kobalt.core.application.NativeView
 import dev.kobalt.core.extension.dp
 import dev.kobalt.core.extension.toImage
 import dev.kobalt.core.extension.withAlpha
-import dev.kobalt.core.utility.AdapterUtil
+import dev.kobalt.core.resources.Colors
+import dev.kobalt.core.resources.Fonts
+import dev.kobalt.core.resources.Images
+import dev.kobalt.core.resources.Strings
 
 open class RecyclerView : NativeView() {
 
@@ -52,12 +55,35 @@ open class RecyclerView : NativeView() {
         }
 
         override fun getPositionForView(view: View): Int {
-            return AdapterUtil.getPositionForView(view, this)
+            var listItem: View? = view
+            try {
+                fun getItemParent() = (listItem?.parent as? View)?.takeIf { it != this }
+                var v: View? = getItemParent()
+                while (v != null) {
+                    listItem = v
+                    v = (getItemParent())
+                }
+            } catch (e: ClassCastException) {
+                return -1
+            }
+
+            if (listItem != null) {
+                (0..childCount).forEach { if (getChildAt(it) == listItem) return firstVisiblePosition + it }
+            }
+            return -1
         }
 
     }
 
     abstract class Adapter<T : Holder> : BaseAdapter() {
+
+        protected val colors: Colors get() = Colors
+
+        protected val images: Images get() = Images
+
+        protected val fonts: Fonts get() = Fonts
+
+        protected val strings: Strings get() = Strings
 
         abstract fun onCreateViewHolder(position: Int): T
 

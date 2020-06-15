@@ -1,22 +1,16 @@
 package dev.kobalt.appfilter.main
 
-import dev.kobalt.appfilter.extension.filterSubmit
 import dev.kobalt.appfilter.view.FilterLabelInputView
 import dev.kobalt.appfilter.view.FilterOptionInputView
 import dev.kobalt.core.extension.dp
 import dev.kobalt.core.extension.safeLet
 import dev.kobalt.core.extension.toImage
-import dev.kobalt.core.view.ButtonView
 import dev.kobalt.core.view.ScrollView
 import dev.kobalt.core.view.StackView
 
-class FilterView : StackView(Orientation.VERTICAL) {
+class FilterView : StackView(Orientation.Vertical) {
 
-    val optionStack = StackView(Orientation.VERTICAL)
-
-    val submitButton = ButtonView().apply {
-        text = strings.filterSubmit
-    }
+    val optionStack = StackView(Orientation.Vertical)
 
     val values
         get() = optionStack.children.mapNotNull { view ->
@@ -33,11 +27,9 @@ class FilterView : StackView(Orientation.VERTICAL) {
 
     init {
         background = colors.gray.toImage()
-        orientation = Orientation.VERTICAL
-        add(ScrollView().apply {
-            add(optionStack, width = matchParent, height = wrapContent)
+        add(ScrollView(ScrollView.Orientation.Vertical).apply {
+            add(optionStack, width = matchParent, height = wrapContent, margin = 4.dp)
         }, width = matchParent, height = matchConstraint, weight = 1f)
-        add(submitButton, width = matchParent, height = 56.dp)
     }
 
 }

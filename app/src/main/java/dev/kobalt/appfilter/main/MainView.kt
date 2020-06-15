@@ -15,58 +15,43 @@ import dev.kobalt.core.utility.WeakReferenceCache
 import dev.kobalt.core.view.NavigationView
 import dev.kobalt.core.view.StackView
 
-class MainView : StackView(orientation = Orientation.VERTICAL) {
+class MainView : StackView(orientation = Orientation.Vertical) {
 
     private var toolbar: ToolbarView = ToolbarView().apply {
-        filterButton.onTap = {
-            contentNavigation.currentLayout = filterLayout.value
-        }
-        backButton.onTap = {
-            this@MainView.onBackPressed()
-        }
+        filterButton.onTap = { contentNavigation.currentLayout = filterLayout.value }
+        backButton.onTap = { this@MainView.onBackPressed() }
         launchButton.onTap = {
             detailsEntry?.link?.let { openUrl(it) }
+        }
+        doneButton.onTap = {
+            hideKeyboard()
+            (contentNavigation.currentLayout as? FilterView)?.let { filterLayout ->
+                contentNavigation.currentLayout = loadingView.value
+                application.jobManager.fetch(filterLayout.values) { apply(it) }
+            }
         }
     }
 
     private val contentNavigation = NavigationView().apply {
         onViewChange = {
-            when (it) {
-                is ResultView -> toolbar.apply {
-                    titleLabel.text = strings.applicationName
-                    filterButton.isVisible = true
-                    backButton.isVisible = false
-                    launchButton.isVisible = false
+            toolbar.apply {
+                titleLabel.text = when (it) {
+                    is ResultView -> strings.applicationName
+                    is LoadingView -> strings.applicationName
+                    is FilterView -> strings.filter
+                    is DetailsView -> strings.details
+                    else -> ""
                 }
-                is LoadingView -> toolbar.apply {
-                    titleLabel.text = strings.applicationName
-                    filterButton.isVisible = false
-                    backButton.isVisible = false
-                    launchButton.isVisible = false
-                }
-                is FilterView -> toolbar.apply {
-                    titleLabel.text = strings.filterOptions
-                    filterButton.isVisible = false
-                    backButton.isVisible = true
-                    launchButton.isVisible = false
-                }
-                is DetailsView -> toolbar.apply {
-                    titleLabel.text = strings.details
-                    filterButton.isVisible = false
-                    backButton.isVisible = true
-                    launchButton.isVisible = true
-                }
+                filterButton.isVisible = it is ResultView
+                backButton.isVisible = it is FilterView || it is DetailsView
+                launchButton.isVisible = it is DetailsView
+                doneButton.isVisible = it is FilterView
             }
         }
     }
 
     private var filterLayout = WeakReferenceCache {
         FilterView().apply {
-            submitButton.onTap = {
-                hideKeyboard()
-                contentNavigation.currentLayout = loadingView.value
-                application.jobManager.fetch(values) { apply(it) }
-            }
             entity?.let { entity ->
                 if (entity.filters.isNotEmpty()) {
                     optionStack.children.toList()
@@ -110,9 +95,9 @@ class MainView : StackView(orientation = Orientation.VERTICAL) {
                 val rating = strings.detailsRating(it.ratingAverage)
                 val reviewCount = it.ratingTotal.toIntOrNull() ?: 0
                 val reviews = strings.detailsReviews(reviewCount.digitalGroup())
-                val containsAds = it.ads.equals("yes", ignoreCase = true)
+                val containsAds = it.ads.equals("true", ignoreCase = true)
                 val ads = if (containsAds) strings.detailsWithAds else strings.detailsWithoutAds
-                val containsIap = it.iap.equals("yes", ignoreCase = true)
+                val containsIap = it.iap.equals("true", ignoreCase = true)
                 val iap = if (containsIap) strings.detailsWithIap else strings.detailsWithoutIap
                 val placeholder = Images.refreshIcon(Colors.white)
                 titleLabel.text = it.name
@@ -145,7 +130,7 @@ class MainView : StackView(orientation = Orientation.VERTICAL) {
             is DetailsView -> {
                 contentNavigation.currentLayout = getListLayout()
             }
-            else -> super.onBackPressed()
+            else -> finish()
         }
     }
 

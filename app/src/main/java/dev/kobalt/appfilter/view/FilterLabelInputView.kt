@@ -5,7 +5,7 @@ import dev.kobalt.core.view.LabelInputView
 import dev.kobalt.core.view.LabelView
 import dev.kobalt.core.view.StackView
 
-open class FilterLabelInputView : StackView(Orientation.HORIZONTAL) {
+open class FilterLabelInputView : StackView(Orientation.Vertical) {
 
     var id: String? = null
 
@@ -31,12 +31,11 @@ open class FilterLabelInputView : StackView(Orientation.HORIZONTAL) {
 
     init {
         gravity = centerGravity
-        add(label, width = wrapContent, height = wrapContent, margin = 8.dp)
+        add(label, width = matchParent, height = wrapContent, margin = 4.dp)
         add(
             input,
-            width = matchConstraint,
+            width = matchParent,
             height = wrapContent,
-            weight = 1f,
             margin = 4.dp,
             padding = 4.dp
         )

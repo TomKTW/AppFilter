@@ -8,3 +8,4 @@ fun Images.backIcon(color: Color) = fromResources(R.raw.icon_back_24dp_black, co
 fun Images.filterIcon(color: Color) = fromResources(R.raw.icon_filter_24dp_black, color)
 fun Images.refreshIcon(color: Color) = fromResources(R.raw.icon_refresh_24dp_black, color)
 fun Images.launchIcon(color: Color) = fromResources(R.raw.icon_launch_24dp_black, color)
+fun Images.doneIcon(color: Color) = fromResources(R.raw.icon_done_24dp_black, color)

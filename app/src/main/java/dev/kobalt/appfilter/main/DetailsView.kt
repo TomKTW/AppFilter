@@ -15,11 +15,11 @@ class DetailsView : LayerView() {
     val thumbnailImage = ImageView()
     val detailsLabel = LabelView()
 
-    private val headerStack = StackView(StackView.Orientation.HORIZONTAL)
+    private val headerStack = StackView(StackView.Orientation.Horizontal)
         .apply {
             add(thumbnailImage, width = 48.dp, height = 48.dp, margin = 8.dp, gravity = topGravity)
             add(
-                StackView(StackView.Orientation.VERTICAL).apply {
+                StackView(StackView.Orientation.Vertical).apply {
                     add(titleLabel, width = matchParent, height = wrapContent)
                     add(developerLabel, width = matchParent, height = wrapContent)
                     add(categoryLabel, width = matchParent, height = wrapContent)
@@ -31,7 +31,7 @@ class DetailsView : LayerView() {
             )
         }
 
-    private val contentStack = StackView(StackView.Orientation.VERTICAL)
+    private val contentStack = StackView(StackView.Orientation.Vertical)
         .apply {
             add(
                 headerStack,
@@ -46,7 +46,7 @@ class DetailsView : LayerView() {
             )
         }
 
-    private val contentScroll = ScrollView().apply {
+    private val contentScroll = ScrollView(ScrollView.Orientation.Vertical).apply {
         add(contentStack, width = matchParent, height = wrapContent)
     }
 
